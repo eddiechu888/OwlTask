@@ -65,33 +65,33 @@ OwlTask provides a unified platform for real-time task coordination with intelli
 
 ## Functional Requirements
 
-### Core Functional Requirements (Must Have)
+### Core Functional Requirements (Must Have - 5 Week Scope)
 
-**FR1: User Management**
-- User registration and authentication
-- Basic profile management
-- Group creation and membership management
+**FR1: Basic User Management**
+- Simple user registration and login (no federated authentication)
+- Basic user profiles (name, email only)
+- Create and join groups (flat structure only)
 
-**FR2: Task Management**
+**FR2: Essential Task Management**
 - Create, read, update, delete tasks
+- Basic task properties: description, due date, priority (high/medium/low), status
 - Task assignment to individuals or groups
 - Task status tracking (not started, in progress, completed)
-- Due date and priority setting
 
 **FR3: Real-time Synchronization**
-- WebSocket-based real-time updates
-- Automatic synchronization across all connected clients
-- Conflict resolution for concurrent edits
+- WebSocket-based real-time updates for task changes
+- Automatic synchronization across connected clients
+- Basic conflict resolution (last-write-wins)
 
-**FR4: AI-Powered Status Summaries**
-- Natural language query processing
+**FR4: AI-Powered Status Summaries (Unique Feature)**
+- Natural language query processing ("How's progress since Monday?")
 - Integration with GPT-4o for intelligent summaries
-- Context-aware progress reporting
+- Context-aware progress reporting based on recent task activity
 
-**FR5: Notification System**
+**FR5: Basic Notification System**
 - Browser-based notifications for task assignments
-- Deadline reminders
-- Status change alerts
+- Simple deadline reminders
+- Real-time alerts for task status changes
 
 ### Secondary Functional Requirements (Should Have)
 
@@ -110,32 +110,99 @@ OwlTask provides a unified platform for real-time task coordination with intelli
 **NFR1: Performance**
 - Page load time < 3 seconds
 - Real-time updates delivered within 1 second
-- Support for up to 50 concurrent users per deployment
+- Support for up to 20 concurrent users (small team focus)
 
-**NFR2: Scalability**
-- Horizontal scaling capability through containerization
-- Database design supports growth to 1000+ tasks
-- Modular architecture enables feature additions
-
-**NFR3: Reliability**
-- 99% uptime during business hours
-- Graceful degradation when AI service unavailable
-- Data persistence and backup
-
-**NFR4: Security**
-- Secure user authentication
-- Data encryption in transit
-- Input validation and sanitization
-
-**NFR5: Usability**
+**NFR2: Usability**
 - Responsive design for desktop and mobile
 - Intuitive interface requiring minimal training
-- Accessibility compliance (basic WCAG guidelines)
+- Clean, modern UI focused on core functionality
 
-**NFR6: Maintainability**
-- Clean, documented codebase
-- Modular architecture with clear separation of concerns
-- Comprehensive error logging
+**NFR3: Reliability**
+- Basic error handling and graceful degradation
+- Data persistence
+- 95% uptime target (realistic for 5-week project)
+
+**NFR4: Security**
+- Basic user authentication
+- Input validation and sanitization
+- HTTPS in production
+
+## Description of Omitted Items
+
+### Major Feature Categories Omitted from PROJECT_DESCRIPTION
+
+**User Management Omissions:**
+- **System maintainer/developer roles**: Only general users supported
+  - *Rationale*: Admin features not critical for core task coordination
+  - *Implementation Effort*: Medium (2 weeks)
+- **Complex group hierarchies**: Only flat group structure
+  - *Rationale*: Single-line vs multi-line hierarchies add significant complexity
+  - *Implementation Effort*: High (3-4 weeks)
+- **Advanced authorization system**: No whitelisting/blacklisting, hierarchical permissions, or inherited permissions
+  - *Rationale*: Basic group membership sufficient for small teams
+  - *Implementation Effort*: High (4-5 weeks)
+- **Federated authentication**: No Google/ADRICE login integration
+  - *Rationale*: Simple login adequate for prototype
+  - *Implementation Effort*: Medium (1-2 weeks)
+
+**Task Management Omissions:**
+- **Task categorization**: No area/sprint/milestone categories or hierarchical categories
+  - *Rationale*: Simple task lists meet 80% of coordination needs
+  - *Implementation Effort*: Medium (2-3 weeks)
+- **Composite tasks**: No sub-tasks or task hierarchies
+  - *Rationale*: Adds UI and data model complexity without core value
+  - *Implementation Effort*: High (3-4 weeks)
+- **Assignment restrictions**: No location, role, or permission-based assignment limits
+  - *Rationale*: Small teams don't need complex assignment rules
+  - *Implementation Effort*: Medium (2 weeks)
+- **Resource projection**: No projected resources needed tracking
+  - *Rationale*: Focus on completion rather than resource planning
+  - *Implementation Effort*: Medium (2 weeks)
+- **Advanced filtering**: No complex filtering by categories, groups, etc.
+  - *Rationale*: Basic search sufficient for small task volumes
+  - *Implementation Effort*: Low (1 week)
+
+**Communication Omissions:**
+- **Task-specific chat**: No discussion threads on individual tasks
+  - *Rationale*: Teams can use external chat tools initially
+  - *Implementation Effort*: High (3-4 weeks)
+- **Group discussions**: No dedicated discussion areas
+  - *Rationale*: Not core to task coordination
+  - *Implementation Effort*: Medium (2-3 weeks)
+- **Archived and searchable communications**: No communication history
+  - *Rationale*: External tools available for team communication
+  - *Implementation Effort*: High (4+ weeks)
+
+**Advanced Features Omitted:**
+- **Complex notification system**: No offline notification queuing or advanced notification preferences
+  - *Rationale*: Browser notifications sufficient for real-time coordination
+  - *Implementation Effort*: Medium (2 weeks)
+- **Advanced scalability**: No multi-server deployment or advanced caching
+  - *Rationale*: Single server adequate for small teams
+  - *Implementation Effort*: High (4+ weeks)
+- **Mobile native apps**: Web responsive design only
+  - *Rationale*: Mobile web sufficient for 5-week timeline
+  - *Implementation Effort*: High (6+ weeks)
+
+### Strategic Omissions Rationale
+
+**Focus on Core Mission**: OwlTask's fundamental goal is real-time task coordination with intelligent status insights. Every omitted feature, while potentially valuable, doesn't directly contribute to this core mission within our 5-week constraint.
+
+**80/20 Rule Applied**: The included features address 80% of small team coordination needs with 20% of the possible implementation effort. Complex permission systems, hierarchical tasks, and advanced communication features serve edge cases that don't justify their development cost.
+
+**Extensibility Preserved**: The modular MVVM architecture with clear separation of concerns makes it straightforward to add omitted features in future releases:
+- Observer pattern ready for complex notification systems
+- Strategy pattern enables pluggable authorization schemes
+- Composite pattern prepared for hierarchical task structures
+- Repository pattern supports advanced filtering and search
+
+### Implementation Effort Estimates
+
+**Total Omitted Effort**: ~35-50 weeks of development
+**Core Implementation**: ~4-5 weeks
+**Effort Ratio**: We're implementing roughly 10% of possible features to deliver 80% of core value
+
+This focused approach ensures we can deliver a polished, working application that solves the fundamental coordination problem rather than a feature-rich but incomplete system.
 
 ## Infrastructure Requirements
 
@@ -175,46 +242,6 @@ OwlTask provides a unified platform for real-time task coordination with intelli
 **RESTful API Design**: Provides clear, standard interface for all CRUD operations.
 
 **Containerized Deployment**: Ensures consistent environments and simplified scaling.
-
-## Description of Omitted Items
-
-### High-Priority Omissions (Future Release Candidates)
-
-**Advanced Permission System**
-- **Rationale**: Basic role-based access is sufficient for initial release
-- **Implementation Effort**: Medium (2-3 weeks)
-- **Why Omitted**: Core functionality doesn't require complex permissions
-
-**Hierarchical Task Structure**
-- **Rationale**: Adds significant complexity to UI and data model
-- **Implementation Effort**: High (4-5 weeks)
-- **Why Omitted**: Simple flat task structure meets 80% of use cases
-
-**Advanced Reporting and Analytics**
-- **Rationale**: Basic progress visibility is sufficient initially
-- **Implementation Effort**: Medium (2-3 weeks)
-- **Why Omitted**: Focus on core task management first
-
-**File Attachments**
-- **Rationale**: Adds storage complexity and security considerations
-- **Implementation Effort**: Medium (2-3 weeks)
-- **Why Omitted**: External file sharing tools can be used initially
-
-### Low-Priority Omissions (Nice to Have)
-
-**Mobile Native Apps**: Web responsive design sufficient for mobile access
-**Integration APIs**: Third-party integrations not critical for core functionality
-**Advanced Search**: Basic filtering meets initial requirements
-**Customizable Workflows**: Standard task states sufficient for most teams
-**Time Tracking**: Focus on completion rather than time spent
-
-### Architectural Decisions Supporting Future Extensions
-
-The modular architecture with clear separation of concerns makes it straightforward to add omitted features:
-- Plugin architecture for new notification types
-- Strategy pattern for different AI summary approaches
-- Observer pattern for extensible real-time updates
-- Composite pattern ready for hierarchical tasks
 
 ## Summary
 
